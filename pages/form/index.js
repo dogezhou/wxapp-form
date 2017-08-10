@@ -7,6 +7,8 @@ Page({
     api_key: null,
     form: {},
 
+    fileUrl: null,
+
     showTopTips: false,
 
     radioItems: [
@@ -134,6 +136,9 @@ Page({
             duration: 700
           })
           var fileUrl = 'https://s2.d2scdn.com/' + JSON.parse(res.data).key
+          that.setData({
+            fileUrl: fileUrl
+          })
           console.log('fileUrl', fileUrl)
         },
         fail: function (res) {
