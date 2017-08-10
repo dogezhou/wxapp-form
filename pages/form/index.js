@@ -58,7 +58,7 @@ Page({
     var that = this
     var data = e.detail.value
     wx.request({
-      url: 'https://' + wx.getStorageSync('domain') + '/capi/v1/user_formdata/save_formdata',
+      url: wx.getStorageSync('companyUrl') + '/capi/v1/user_formdata/save_formdata',
       header: {
         Cookie: wx.getStorageSync('Cookie')
       },
@@ -83,9 +83,68 @@ Page({
       }
     })
   },
+  // <上传图片>
+  upLoad: function () {
+    console.log('upload')
+    var that = this
+    wx.showActionSheet({
+      itemList: ['从相册中选择', '拍照'],
+      itemColor: "#f7982a",
+      success: function (res) {
+        if (!res.cancel) {
+          if (res.tapIndex == 0) {
+            that.chooseWxImage('album')
+          } else if (res.tapIndex == 1) {
+            that.chooseWxImage('camera')
+          }
+        }
+      }
+    })
+  },
+  chooseWxImage: function (type) {
+    var that = this
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: [type],
+      success: function (res) {
+        console.log('chooseImage res', res)
+        that.data.filePath = res.tempFilePaths[0]
+        that.upload_file(wx.getStorageSync('upLoadUrl'), res.tempFilePaths[0])
+      }
+    })
+  },
+  upload_file: function (url, filePath) {
+      var that = this;
+      wx.uploadFile({
+        url: url,
+        filePath: filePath,
+        name: 'file',
+        header: {
+          'content-type': 'multipart/form-data'
+        },
+        formData: {
+          token: app.globalData.CONTEXTERS.data.data.qiniu.token
+        },
+        success: function (res) {
+          console.log('uploadFile success res', res)
+          wx.showToast({
+            title: "图片上传成功",
+            icon: 'success',
+            duration: 700
+          })
+          var fileUrl = 'https://s2.d2scdn.com/' + JSON.parse(res.data).key
+          console.log('fileUrl', fileUrl)
+        },
+        fail: function (res) {
+          console.log('uploadFile fail res', res)
+        }
+      })
+    },
+  // </上传图片>
   onLoad: function (options) {
     var that = this
-
+    app.getContext()
     wx.getExtConfig({
       success: function (res) {
         console.log('res.extConfig', res.extConfig)

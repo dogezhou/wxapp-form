@@ -6,6 +6,22 @@ App({
     this.setStorage()
   },
 
+  getContext: function () {
+    var that = this
+    const contextKeyList = ['company', 'siteuser', 'qiniu', 'weixinuser', 'capi']
+    let keys = contextKeyList.join(',')
+    wx.request({
+      url: wx.getStorageSync('companyUrl') + '/capi/v1/contexters/get_contexters?keys=' + keys,
+      header: {
+        Cookie: wx.getStorageSync('Cookie')
+      },
+      success: function (res) {
+        that.globalData.CONTEXTERS = res
+        console.log('that.globalData.CONTEXTERS', that.globalData.CONTEXTERS)
+      }
+    })
+  },
+
   setStorage: function () {
     let that = this
     if (wx.getExtConfig) {
@@ -88,6 +104,7 @@ App({
   },
 
   globalData: {
-    userInfo: null
+    userInfo: null,
+    CONTEXTERS: {}
   }
 })
