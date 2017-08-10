@@ -1,0 +1,24 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">请先登录!</view>
+  <view class="userinfo">
+    <block wx:if="{{hasUserInfo}}">
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+    <button wx:else open-type="getUserInfo" bindgetuserinfo="getUserInfo" size="mini">登录</button>
+  </view>
+</view>
+
+<view class="userfunc">
+  <view class="widget-box">
+  <view class="widget__item">
+    <view class="widget__list">
+      <view bindtap="submitForm" class="widget">
+        <text class="widget__name">提交表单</text>
+        <image class="widget__arrow" src="../../img/arrow-right.png" background-size="cover" />
+      </view>
+    </view>
+  </view>
+</view>
+</view>

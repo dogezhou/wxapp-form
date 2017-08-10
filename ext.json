@@ -1,0 +1,16 @@
+{
+  "extEnable": true,
+  "ext": {
+    "backendData": {
+      "APPID": "wxc3c023fb52f2315d",
+      "SECRET": "..."
+    },
+    "storageData": {
+      "domain": "www.sh-qiuzhen.com",
+      "danluUrl": "http://test.danlu.net",
+      "danluDomain": "www.demlution.com",
+      "apiKey": "92b99cc5ded4467499c4f7b12e413df9",
+      "username": "qiuzhen"
+    }
+  }
+}
